@@ -13,11 +13,15 @@ public class DetalleVentaService {
     @Autowired
     DetalleVentaRepository detalleVentasRepository;
 
-    public ArrayList<DetalleVentaModel> obtenerDetalleVenta(){
-        return (ArrayList<DetalleVentaModel>) detalleVentasRepository.findAll();
+    public DetalleVentaModel save(DetalleVentaModel detalleVenta){
+
+        //Modificación de Stock
+
+
+        return detalleVentasRepository.save(detalleVenta);
     }
 
-    public DetalleVentaModel guardarDetalleVenta(DetalleVentaModel detalleVenta){
-        return detalleVentasRepository.save(detalleVenta);
+    public ArrayList<DetalleVentaModel> getAll(){
+        return (ArrayList<DetalleVentaModel>) detalleVentasRepository.findAll();
     }
 }

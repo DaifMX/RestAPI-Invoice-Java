@@ -46,6 +46,18 @@ public class ProductoService {
         }
     }
 
+    public ProductoModel stockUpdate(ProductoModel productoModel){
+        Optional<ProductoModel> productoInDb = this.productoRepository.findById(productoModel.getId());
+
+        if(productoInDb.isPresent()){
+            ProductoModel c = productoInDb.get();
+            c.setStock(productoModel.getStock());
+            return this.productoRepository.save(c);
+        } else {
+            return null;
+        }
+    }
+
     public void delete(Long id){
         this.productoRepository.deleteById(id);
     }

@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/detalle_venta")
@@ -15,13 +15,15 @@ public class DetalleVentaController {
     @Autowired
      DetalleVentaService detalleVentaService;
 
-    @GetMapping()
-    public ArrayList<DetalleVentaModel> obtenerDetalleVenta(){
-        return detalleVentaService.obtenerDetalleVenta();
+    @PostMapping("/save")
+    public ResponseEntity<DetalleVentaModel> save(@RequestBody DetalleVentaModel detalleVenta){
+        return new ResponseEntity<DetalleVentaModel>(detalleVentaService.save(detalleVenta), HttpStatus.OK);
     }
 
-    @PostMapping("/save")
-    public ResponseEntity<DetalleVentaModel> guardarDetalleVenta(@RequestBody DetalleVentaModel detalleVenta){
-        return new ResponseEntity<DetalleVentaModel>(detalleVentaService.guardarDetalleVenta(detalleVenta), HttpStatus.OK);
+    @GetMapping("/get/all")
+    public ResponseEntity<List<DetalleVentaModel>> obtenerDetalleVenta(){
+        return new ResponseEntity<>(this.detalleVentaService.getAll(), HttpStatus.OK);
     }
+
+
 }
