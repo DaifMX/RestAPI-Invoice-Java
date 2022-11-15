@@ -1,6 +1,9 @@
 package net.daif.cliente.models;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -8,14 +11,21 @@ import java.util.List;
 @Data
 @Entity
 @Table(name="producto")
+@AllArgsConstructor
+@NoArgsConstructor
 
 public class ProductoModel {
+
+    public ProductoModel(Long id) {
+        this.id = id;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(unique = true, nullable = false)
+    @Column(name = "id", unique = true, nullable = false)
     private Long id;
 
-    @Column(name = "sku")
+    @Column(name = "sku", unique = true)
     private String sku;
 
     @Column(name = "descripcion")
@@ -33,6 +43,8 @@ public class ProductoModel {
     @Column(name = "fecha_alta")
     private LocalDateTime fecha_alta;
 
-    @OneToMany(mappedBy = "productoModel", cascade = CascadeType.ALL)
-    private List<DetalleVentaModel> detalleVenta;
+    /*
+    @OneToMany(mappedBy = "producto_id", cascade = CascadeType.ALL)
+    private List<DetalleVentaModel> detalle_venta;
+     */
 }

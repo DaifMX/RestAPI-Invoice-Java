@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/detalle_venta")
@@ -15,15 +16,13 @@ public class DetalleVentaController {
     @Autowired
      DetalleVentaService detalleVentaService;
 
-    @PostMapping("/save")
-    public ResponseEntity<DetalleVentaModel> save(@RequestBody DetalleVentaModel detalleVenta){
-        return new ResponseEntity<DetalleVentaModel>(detalleVentaService.save(detalleVenta), HttpStatus.OK);
-    }
-
     @GetMapping("/get/all")
     public ResponseEntity<List<DetalleVentaModel>> obtenerDetalleVenta(){
         return new ResponseEntity<>(this.detalleVentaService.getAll(), HttpStatus.OK);
     }
 
-
+    @GetMapping("/get/{id}")
+    public ResponseEntity<Optional<DetalleVentaModel>> getById(@PathVariable("id") Long id){
+        return new ResponseEntity<>(this.detalleVentaService.getById(id), HttpStatus.FOUND);
+    }
 }

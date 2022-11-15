@@ -18,7 +18,7 @@ public class ClienteController {
 
     @PostMapping("/save")
     public ResponseEntity<ClienteModel> save(@RequestBody ClienteModel cliente){
-        return new ResponseEntity<ClienteModel>(clienteService.save(cliente), HttpStatus.OK);
+        return new ResponseEntity<ClienteModel>(clienteService.save(cliente), HttpStatus.CREATED);
     }
 
     @GetMapping("/get/all")
@@ -28,7 +28,7 @@ public class ClienteController {
 
     @GetMapping("/get/{id}")
     public ResponseEntity<Optional<ClienteModel>> getById(@PathVariable("id") Long id){
-        return new ResponseEntity<>(this.clienteService.getById(id), HttpStatus.OK);
+        return new ResponseEntity<>(this.clienteService.getById(id), HttpStatus.FOUND);
     }
 
     @PutMapping("/update")

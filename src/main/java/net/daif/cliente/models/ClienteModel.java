@@ -1,19 +1,27 @@
 package net.daif.cliente.models;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.List;
 
 @Data
 @Entity
 @Table(name = "cliente")
+@AllArgsConstructor
+@NoArgsConstructor
 
 public class ClienteModel {
 
+    public ClienteModel(Long id) {
+        this.id = id;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(unique = true, nullable = false)
+    @Column(name = "id", unique = true, nullable = false)
     private Long id;
 
     @Column(name = "dni")
@@ -28,9 +36,9 @@ public class ClienteModel {
     @Column(name = "fecha_nacimiento")
     private LocalDate fecha_nacimiento;
 
-    @OneToMany(mappedBy = "clienteModel", cascade = CascadeType.ALL)
+    /*
+    @OneToMany(mappedBy = "cliente_id", cascade = CascadeType.ALL)
     private List<VentaModel> venta;
-
-
+     */
 }
 

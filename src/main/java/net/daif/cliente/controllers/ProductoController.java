@@ -18,7 +18,7 @@ public class ProductoController {
 
     @PostMapping("/save")
     public ResponseEntity<ProductoModel> save(@RequestBody ProductoModel producto){
-        return new ResponseEntity<ProductoModel>(productoService.save(producto), HttpStatus.OK);
+        return new ResponseEntity<ProductoModel>(productoService.save(producto), HttpStatus.CREATED);
     }
 
     @GetMapping("/get/all")
@@ -28,7 +28,7 @@ public class ProductoController {
 
     @GetMapping("/get/{id}")
     public ResponseEntity<Optional<ProductoModel>> getById(@PathVariable("id") Long id){
-        return new ResponseEntity<>(this.productoService.getById(id), HttpStatus.OK);
+        return new ResponseEntity<>(this.productoService.getById(id), HttpStatus.FOUND);
     }
 
     @PutMapping("/update")
