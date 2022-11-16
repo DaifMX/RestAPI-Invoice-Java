@@ -1,8 +1,11 @@
 package net.daif.cliente.services;
 
+import net.daif.cliente.exceptions.ResourceAbsentException;
+import net.daif.cliente.exceptions.ResourceDuplicityException;
 import net.daif.cliente.repositories.ProductoRepository;
 import net.daif.cliente.models.ProductoModel;
 
+import net.daif.cliente.validators.ProductoValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,24 +16,35 @@ import java.util.Optional;
 @Service
 public class ProductoService {
 
-    @Autowired
-    private ProductoRepository productoRepository;
+    @Autowired private ProductoRepository productoRepository;
 
-    public ProductoModel save(ProductoModel producto){
-        producto.setFecha_alta(LocalDateTime.now());
-        return this.productoRepository.save(producto);
+    @Autowired private ProductoValidator validator;
+
+    public ProductoModel save(ProductoModel producto) throws ResourceDuplicityException {
+        this.validator.validate(producto);
+
+        Optional<ProductoModel> productInDB = this.productoRepository.findBySku(producto.getSku());
+
+        if(productInDB.isPresent()){
+            throw new ResourceDuplicityException("Ya existe un producto con este SKU");
+        } else {
+            producto.setFecha_alta(LocalDateTime.now());
+            return this.productoRepository.save(producto);
+        }
     }
 
     public ArrayList<ProductoModel> getAll(){
-        return (ArrayList<ProductoModel>) productoRepository.findAll();
+        return (ArrayList<ProductoModel>) this.productoRepository.findAll();
     }
 
     public Optional<ProductoModel> getById(Long id) {
         return this.productoRepository.findById(id);
     }
 
-    public ProductoModel update(ProductoModel productoModel){
+    public ProductoModel update(ProductoModel productoModel) throws ResourceAbsentException { //Los updates se hacen insertando la id del producto dentro del JSON
         Optional<ProductoModel> productInDB = this.productoRepository.findById(productoModel.getId());
+
+        this.validator.validate(productoModel);
 
         if(productInDB.isPresent()){
             ProductoModel c = productInDB.get();
@@ -42,19 +56,7 @@ public class ProductoService {
             c.setFecha_alta(productoModel.getFecha_alta());
             return this.productoRepository.save(c);
         } else {
-            return null;
-        }
-    }
-
-    public ProductoModel stockUpdate(ProductoModel productoModel){
-        Optional<ProductoModel> productoInDb = this.productoRepository.findById(productoModel.getId());
-
-        if(productoInDb.isPresent()){
-            ProductoModel c = productoInDb.get();
-            c.setStock(productoModel.getStock());
-            return this.productoRepository.save(c);
-        } else {
-            return null;
+            throw new ResourceAbsentException("El producto que se ha intentado modificar no existe en la base de datos");
         }
     }
 

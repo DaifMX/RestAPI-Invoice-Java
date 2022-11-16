@@ -12,8 +12,8 @@ import java.util.Optional;
 
 @Service
 public class DetalleVentaService {
-    @Autowired
-    DetalleVentaRepository detalleVentaRepository;
+
+    @Autowired private DetalleVentaRepository detalleVentaRepository;
 
     public ArrayList<DetalleVentaModel> getAll(){
         return (ArrayList<DetalleVentaModel>) detalleVentaRepository.findAll();

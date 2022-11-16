@@ -1,5 +1,6 @@
 package net.daif.cliente.controllers;
 
+import net.daif.cliente.exceptions.ResourceAbsentException;
 import net.daif.cliente.models.VentaModel;
 import net.daif.cliente.services.VentaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +14,11 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/venta")
 public class VentaController {
-    @Autowired
-    VentaService ventaService;
+
+    @Autowired private VentaService ventaService;
 
     @PostMapping("/save")
-    public ResponseEntity<VentaModel> save(@RequestBody VentaModel venta){
+    public ResponseEntity<VentaModel> save(@RequestBody VentaModel venta) throws ResourceAbsentException {
         return new ResponseEntity<>(ventaService.save(venta), HttpStatus.OK);
     }
 

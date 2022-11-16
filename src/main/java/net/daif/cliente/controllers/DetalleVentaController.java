@@ -13,8 +13,8 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/detalle_venta")
 public class DetalleVentaController {
-    @Autowired
-     DetalleVentaService detalleVentaService;
+
+    @Autowired private DetalleVentaService detalleVentaService;
 
     @GetMapping("/get/all")
     public ResponseEntity<List<DetalleVentaModel>> obtenerDetalleVenta(){

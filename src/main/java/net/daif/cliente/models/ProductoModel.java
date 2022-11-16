@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
 @Entity
@@ -20,8 +19,7 @@ public class ProductoModel {
         this.id = id;
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false)
     private Long id;
 
@@ -42,9 +40,4 @@ public class ProductoModel {
 
     @Column(name = "fecha_alta")
     private LocalDateTime fecha_alta;
-
-    /*
-    @OneToMany(mappedBy = "producto_id", cascade = CascadeType.ALL)
-    private List<DetalleVentaModel> detalle_venta;
-     */
 }

@@ -1,5 +1,7 @@
 package net.daif.cliente.controllers;
 
+import net.daif.cliente.exceptions.ResourceAbsentException;
+import net.daif.cliente.exceptions.ResourceDuplicityException;
 import net.daif.cliente.models.ProductoModel;
 import net.daif.cliente.services.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +15,12 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/producto")
 public class ProductoController {
-    @Autowired
-    ProductoService productoService;
+
+    @Autowired private ProductoService productoService;
 
     @PostMapping("/save")
-    public ResponseEntity<ProductoModel> save(@RequestBody ProductoModel producto){
-        return new ResponseEntity<ProductoModel>(productoService.save(producto), HttpStatus.CREATED);
+    public ResponseEntity<ProductoModel> save(@RequestBody ProductoModel producto) throws ResourceDuplicityException {
+        return new ResponseEntity<ProductoModel>(this.productoService.save(producto), HttpStatus.CREATED);
     }
 
     @GetMapping("/get/all")
@@ -32,13 +34,13 @@ public class ProductoController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<ProductoModel> update(@RequestBody ProductoModel producto){
-        return new ResponseEntity<ProductoModel>(productoService.update(producto), HttpStatus.OK);
+    public ResponseEntity<ProductoModel> update(@RequestBody ProductoModel producto) throws ResourceAbsentException {
+        return new ResponseEntity<ProductoModel>(this.productoService.update(producto), HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> delete(@PathVariable("id") Long id){
-        productoService.delete(id);
+        this.productoService.delete(id);
         return new ResponseEntity<>("Succesfully deleated", HttpStatus.OK);
     }
 }

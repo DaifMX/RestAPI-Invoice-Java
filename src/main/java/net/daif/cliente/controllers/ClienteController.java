@@ -1,5 +1,7 @@
 package net.daif.cliente.controllers;
 
+import net.daif.cliente.exceptions.ResourceAbsentException;
+import net.daif.cliente.exceptions.ResourceDuplicityException;
 import net.daif.cliente.models.ClienteModel;
 import net.daif.cliente.services.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +15,11 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/cliente")
 public class ClienteController {
-    @Autowired
-    ClienteService clienteService;
+
+    @Autowired private ClienteService clienteService;
 
     @PostMapping("/save")
-    public ResponseEntity<ClienteModel> save(@RequestBody ClienteModel cliente){
+    public ResponseEntity<ClienteModel> save(@RequestBody ClienteModel cliente) throws ResourceDuplicityException {
         return new ResponseEntity<ClienteModel>(clienteService.save(cliente), HttpStatus.CREATED);
     }
 
@@ -32,7 +34,7 @@ public class ClienteController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<ClienteModel> update(@RequestBody ClienteModel cliente){
+    public ResponseEntity<ClienteModel> update(@RequestBody ClienteModel cliente) throws ResourceAbsentException {
         return new ResponseEntity<ClienteModel>(clienteService.update(cliente), HttpStatus.OK);
     }
 

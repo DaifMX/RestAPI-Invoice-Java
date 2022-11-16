@@ -19,8 +19,7 @@ public class ClienteModel {
         this.id = id;
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false)
     private Long id;
 
@@ -35,10 +34,5 @@ public class ClienteModel {
 
     @Column(name = "fecha_nacimiento")
     private LocalDate fecha_nacimiento;
-
-    /*
-    @OneToMany(mappedBy = "cliente_id", cascade = CascadeType.ALL)
-    private List<VentaModel> venta;
-     */
 }
 
